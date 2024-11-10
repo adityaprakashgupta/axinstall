@@ -139,3 +139,7 @@ This project uses `rustup`, to set up `cargo` for **Jade** development, please f
 ## 📜 License
 
 [GPLv3-only](https://choosealicense.com/licenses/gpl-3.0/)
+
+## Credits
+
+This project is forked from Crystal Jade
