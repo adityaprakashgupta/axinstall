@@ -41,6 +41,7 @@ pub fn install_base_packages(kernel: String) {
         "axos-hooks",
         "axos-hooks-extra",
         "plymouth-theme-axos",
+        "epsilon",
         // Extra goodies
         "neofetch",
         "axos/plymouth",
@@ -84,6 +85,9 @@ pub fn install_base_packages(kernel: String) {
         "power-profiles-daemon",
         "ntp",
         "kf6",
+        "packagekit-qt6",
+        "gnome-packagekit",
+        "packagekit",
         // Graphic drivers
         "xf86-video-amdgpu",
         "xf86-video-intel",
