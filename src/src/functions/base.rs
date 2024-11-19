@@ -42,6 +42,7 @@ pub fn install_base_packages(kernel: String) {
         "axos-hooks-extra",
         "plymouth-theme-axos",
         "epsilon",
+        "axos-wallpaper-collection",
         // Extra goodies
         "neofetch",
         "axos/plymouth",
