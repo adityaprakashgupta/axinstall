@@ -84,6 +84,7 @@ fn install_kde() {
         "pipewire-pulse",
         "pipewire-alsa",
         "pipewire-jack",
+        "papirus-icon-theme",
         "wireplumber",
         "sddm",
         "okular",
