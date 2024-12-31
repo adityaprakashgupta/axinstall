@@ -262,6 +262,7 @@ fn install_hyprland() {
         "axskel-hypr",
     ]);
     enable_dm("sddm");
+    // TODO: set hyprland as the default session by removing the other's entries
 }
 
 fn enable_dm(dm: &str) {
