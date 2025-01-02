@@ -264,5 +264,6 @@ pub fn read_config(configpath: PathBuf) {
     } else {
         log::info!("Unakite disabled");
     }
+    println!();
     println!("Installation finished! You may reboot now!")
 }
