@@ -78,12 +78,11 @@ pub fn install_base_packages(kernel: String) {
         "python-pip",
         "bash",
         "bash-completion",
-        "deepin-icon-theme",
         "make",
         "inxi",
+        "acpi",
         "htop",
         "fwupd",
-        "sddm-theme-chili",
         "power-profiles-daemon",
         "ntp",
         "kf6",
@@ -102,6 +101,10 @@ pub fn install_base_packages(kernel: String) {
         // Chaotic-AUR
         "chaotic-keyring",
         "chaotic-mirrorlist",
+        // Display manager
+        "sddm",
+        "sddm-theme-chili",
+
     ]);
     files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
 
