@@ -222,8 +222,8 @@ pub enum DesktopSetup {
     #[clap(name = "calla")]
     Calla,
 
-    #[clap(name = "hyprland")]
-    Hyprland,
+    #[clap(name = "sleex")]
+    Sleex,
 
     #[clap(name = "None/DIY")]
     None,

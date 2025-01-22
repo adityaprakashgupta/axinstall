@@ -152,7 +152,7 @@ pub fn read_config(configpath: PathBuf) {
         "kde" => desktops::install_desktop_setup(DesktopSetup::Kde),
         "plasma" => desktops::install_desktop_setup(DesktopSetup::Kde),
         "calla" => desktops::install_desktop_setup(DesktopSetup::Calla),
-        "hyprland" => desktops::install_desktop_setup(DesktopSetup::Hyprland),
+        "sleex" => desktops::install_desktop_setup(DesktopSetup::Sleex),
         "none/diy" => desktops::install_desktop_setup(DesktopSetup::None),
         _ => log::info!("No desktop setup selected!"),
     }
