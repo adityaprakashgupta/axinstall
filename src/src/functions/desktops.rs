@@ -110,6 +110,7 @@ fn install_sleex() {
         "hyprlang-git",
         "hyprcursor-git",
         "sleex",
+        "axskel-hypr",
         // The other stuff
         "hyprwayland-scanner-git",
         "gojq",
