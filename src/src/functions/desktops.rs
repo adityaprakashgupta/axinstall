@@ -105,49 +105,9 @@ fn install_kde() {
 
 fn install_sleex() {
     install(vec![
-        // Base
-        "hyprland-git",
-        "hyprlang-git",
-        "hyprcursor-git",
         "sleex",
-        "axskel-hypr",
-        // The other stuff
-        "hyprwayland-scanner-git",
-        "gojq",
-        "lm_sensors",
-        // System utilities
-        "neofetch",
-        "firefox",
-        "python",
-        "sddm",
-        "bash-completion",
-        "pipewire-pulse",
-        "papirus-icon-theme",
-        "make",
-        "inxi",
-        "power-profiles-daemon",
-        "fwupd",
-        "sddm-theme-chili",
-        "git",
-        "archlinux-keyring",
-        // Gnome packages
-        "gnome-autoar",
-        "gnome-bluetooth",
-        "gnome-color-manager",
-        "gnome-disk-utility",
-        "gnome-keybindings",
-        "gnome-power-manager",
-        "gnome-session",
-        "gnome-settings-daemon",
-        "gnome-system-monitor",
-        "gnome-themes-extra",
-        "gnome-tweaks",
-        "baobab",
-        "gparted",
-        "gnome-calculator",
-        "plasma-browser-integration",
-        "nautilus",
-    ]);
+        "illogical-impulse-optional",
+        ]);
     enable_dm("sddm");
     // TODO: set Sleex as the default session by removing the other's entries
 }
