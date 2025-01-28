@@ -105,11 +105,20 @@ fn install_kde() {
 
 fn install_sleex() {
     install(vec![
+        "hyprland-git",
         "sleex",
         "illogical-impulse-optional",
         ]);
     enable_dm("sddm");
-    // TODO: set Sleex as the default session by removing the other's entries
+    set_sddm_sleex_default();
+}
+
+fn set_sddm_sleex_default() {
+    log::debug!("Setting Sleex as the default SDDM session");
+    exec_eval(
+        exec_chroot("cat", vec![String::from("Session=/usr/share/wayland-sessions/sleex.desktop"), String::from("/var/lib/sddm/state.conf")]), 
+        format!("Set Sleex as the default SDDM session").as_str(),
+    );
 }
 
 fn enable_dm(dm: &str) {
