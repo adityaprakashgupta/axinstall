@@ -116,7 +116,11 @@ fn install_sleex() {
 fn set_sddm_sleex_default() {
     log::debug!("Setting Sleex as the default SDDM session");
     exec_eval(
-        exec_chroot("cat", vec![String::from("Session=/usr/share/wayland-sessions/sleex.desktop"), String::from("/var/lib/sddm/state.conf")]), 
+        exec_chroot("echo", vec![String::from("[Last]"), String::from(">>"), String::from("/var/lib/sddm/state.conf")]), 
+        format!("Set Sleex as the default SDDM session").as_str(),
+    );
+    exec_eval(
+        exec_chroot("echo", vec![String::from("Session=/usr/share/wayland-sessions/sleex.desktop"), String::from(">>"), String::from("/var/lib/sddm/state.conf")]), 
         format!("Set Sleex as the default SDDM session").as_str(),
     );
 }
