@@ -110,7 +110,7 @@ fn install_sleex() {
         "illogical-impulse-optional",
         ]);
     enable_dm("sddm");
-    set_sddm_sleex_default();
+    //set_sddm_sleex_default();
 }
 
 fn set_sddm_sleex_default() {
