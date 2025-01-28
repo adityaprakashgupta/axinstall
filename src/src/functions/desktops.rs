@@ -105,7 +105,15 @@ fn install_kde() {
 
 fn install_sleex() {
     install(vec![
+        // Hyprland stuff
         "hyprland-git",
+        "hyprlang-git",
+        "hyprcursor-git",
+        "hyprutils-git",
+        "hyprlock-git",
+        "hyprpicker-git",
+        "hyprwayland-scanner-git",
+        // AxOS stuff
         "sleex",
         "illogical-impulse-optional",
         ]);
