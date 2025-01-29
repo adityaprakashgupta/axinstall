@@ -109,7 +109,7 @@ fn install_sleex() {
         "axos/hyprland-git",
         "hyprlang-git",
         "hyprcursor-git",
-        "hyprutils-git",
+        "axos/hyprutils-git",
         "hyprlock-git",
         "hyprpicker-git",
         "hyprwayland-scanner-git",
