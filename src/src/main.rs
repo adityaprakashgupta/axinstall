@@ -21,7 +21,6 @@ fn main() {
                 args.mode,
                 args.efi,
                 &mut partitions,
-                args.unakite,
             );
         }
         Command::InstallBase(args) => {
@@ -33,7 +32,6 @@ fn main() {
         Command::GenFstab => {
             base::genfstab();
         }
-        Command::SetupTimeshift => base::setup_timeshift(),
         Command::Bootloader { subcommand } => match subcommand {
             BootloaderSubcommand::GrubEfi { efidir } => {
                 base::install_bootloader_efi(efidir);
@@ -62,20 +60,8 @@ fn main() {
         Command::CopyLive => {
             base::copy_live_config();
         }
-        Command::Flatpak => {
-            base::install_flatpak();
-        }
         Command::Nvidia => {
             base::install_nvidia();
-        }
-        Command::Unakite(args) => {
-            unakite::setup_arch(
-                &args.root,
-                &args.oldroot,
-                args.efi,
-                &args.efidir,
-                &args.bootdev,
-            );
         }
         Command::Config { config } => {
             crate::internal::config::read_config(config);

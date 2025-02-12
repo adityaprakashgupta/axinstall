@@ -30,10 +30,6 @@ pub enum Command {
     #[clap(name = "genfstab")]
     GenFstab,
 
-    /// Setup Timeshift
-    #[clap(name = "setup-timeshift")]
-    SetupTimeshift,
-
     /// Install the bootloader
     #[clap(name = "bootloader")]
     Bootloader {
@@ -56,17 +52,9 @@ pub enum Command {
     #[clap(name = "copy-live-config")]
     CopyLive,
 
-    /// Install Flatpak and enable FlatHub
-    #[clap(name = "flatpak")]
-    Flatpak,
-
     /// Install and setup Nvidia drivers
     #[clap(name = "nvidia")]
     Nvidia,
-
-    /// Setup Unakite
-    #[clap(name = "unakite")]
-    Unakite(UnakiteArgs),
 
     /// Read Axinstall installation config
     #[clap(name = "config")]
@@ -82,7 +70,6 @@ pub enum Command {
         #[clap(arg_enum)]
         desktop: DesktopSetup,
     },
-
 
     /// Configure users and passwords
     #[clap(name = "users")]
@@ -107,9 +94,6 @@ pub struct PartitionArgs {
     #[clap(long)]
     pub efi: bool,
 
-    #[clap(long)]
-    pub unakite: bool,
-
     /// The partitions to use for manual partitioning
     #[clap(required_if_eq("mode", "Partition::Manual"), parse(try_from_str = parse_partitions))]
     pub partitions: Vec<Partition>,
@@ -119,25 +103,6 @@ pub struct PartitionArgs {
 pub struct InstallBaseArgs {
     #[clap(long)]
     pub kernel: String,
-}
-
-#[derive(Debug, Args)]
-pub struct UnakiteArgs {
-    /// Root device of Unakite
-    #[clap(long)]
-    pub root: String,
-    /// Root device of Crystal
-    #[clap(long)]
-    pub oldroot: String,
-    /// Whether the system is an EFI system
-    #[clap(long)]
-    pub efi: bool,
-    /// Boot directory (if not EFI), or EFI directory
-    #[clap(long)]
-    pub efidir: String,
-    /// Blockdev of boot device
-    #[clap(long)]
-    pub bootdev: String,
 }
 
 #[derive(Debug)]

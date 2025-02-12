@@ -78,16 +78,6 @@ axinstall-cli is an installer backend for AxOS.
 # axinstall-cli desktops gnome
 ```
 
-### Setup timeshift
-```sh
-# axinstall-cli setup-timeshift
-```
-
-### Setup flatpak
-```sh
-# axinstall-cli flatpak
-```
-
 ### Setup nvidia
 ```sh
 # axinstall-cli nvidia

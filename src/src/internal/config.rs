@@ -14,12 +14,9 @@ struct Config {
     users: Vec<Users>,
     rootpass: String,
     desktop: String,
-    timeshift: bool,
-    flatpak: bool,
     nvidia: bool,
     zramd: bool,
     extra_packages: Vec<String>,
-    unakite: Unakite,
     kernel: String,
 }
 
@@ -49,16 +46,6 @@ struct Networking {
     hostname: String,
     ipv6: bool,
 }
-
-#[derive(Serialize, Deserialize)]
-struct Unakite {
-    enable: bool,
-    root: String,
-    oldroot: String,
-    efidir: String,
-    bootdev: String,
-}
-
 
 #[derive(Serialize, Deserialize)]
 struct Users {
@@ -109,7 +96,6 @@ pub fn read_config(configpath: PathBuf) {
         config.partition.mode,
         config.partition.efi,
         &mut partitions,
-        config.unakite.enable,
     );
     base::install_base_packages(config.kernel);
     base::setup_archlinux_keyring();
@@ -177,16 +163,6 @@ pub fn read_config(configpath: PathBuf) {
     users::root_pass(config.rootpass.as_str());
 
     println!();
-    log::info!("Enabling timeshift : {}", config.timeshift);
-    if config.timeshift {
-        base::setup_timeshift();
-    }
-    println!();
-    log::info!("Enabling flatpak : {}", config.flatpak);
-    if config.flatpak {
-        base::install_flatpak();
-    }
-    println!();
     log::info!("Copying live config");
     base::copy_live_config();
     println!();
@@ -200,70 +176,6 @@ pub fn read_config(configpath: PathBuf) {
         extra_packages.push(config.extra_packages[i].as_str());
     }
     install(extra_packages);
-    log::info!("Setup unakite");
-    if config.partition.mode == PartitionMode::Auto
-        && !config.partition.efi
-        && config.unakite.enable
-        && !config.partition.device.to_string().contains("nvme")
-    {
-        let root = PathBuf::from("/dev/").join(config.partition.device.as_str());
-        unakite::setup_arch(
-            format!("{}2", root.to_str().unwrap()).as_str(),
-            format!("{}3", root.to_str().unwrap()).as_str(),
-            config.partition.efi,
-            "/boot",
-            format!("{}1", root.to_str().unwrap()).as_str(),
-        )
-    } else if config.partition.mode == PartitionMode::Auto
-        && config.partition.efi
-        && config.unakite.enable
-        && !config.partition.device.to_string().contains("nvme")
-    {
-        let root = PathBuf::from("/dev/").join(config.partition.device.as_str());
-        unakite::setup_arch(
-            format!("{}2", root.to_str().unwrap()).as_str(),
-            format!("{}3", root.to_str().unwrap()).as_str(),
-            config.partition.efi,
-            "/boot/efi",
-            format!("{}1", root.to_str().unwrap()).as_str(),
-        )
-    } else if config.unakite.enable {
-        unakite::setup_arch(
-            &config.unakite.root,
-            &config.unakite.oldroot,
-            config.partition.efi,
-            &config.unakite.efidir,
-            &config.unakite.bootdev,
-        );
-    } else if config.partition.mode == PartitionMode::Auto
-        && config.partition.efi
-        && config.unakite.enable
-        && config.partition.device.to_string().contains("nvme")
-    {
-        let root = PathBuf::from("/dev/").join(config.partition.device.as_str());
-        unakite::setup_arch(
-            format!("{}p2", root.to_str().unwrap()).as_str(),
-            format!("{}p3", root.to_str().unwrap()).as_str(),
-            config.partition.efi,
-            "/boot/efi",
-            format!("{}p1", root.to_str().unwrap()).as_str(),
-        )
-    } else if config.partition.mode == PartitionMode::Auto
-        && !config.partition.efi
-        && config.unakite.enable
-        && config.partition.device.to_string().contains("nvme")
-    {
-        let root = PathBuf::from("/dev/").join(config.partition.device.as_str());
-        unakite::setup_arch(
-            format!("{}p2", root.to_str().unwrap()).as_str(),
-            format!("{}p3", root.to_str().unwrap()).as_str(),
-            config.partition.efi,
-            "/boot",
-            format!("{}p1", root.to_str().unwrap()).as_str(),
-        )
-    } else {
-        log::info!("Unakite disabled");
-    }
     println!();
     println!("Installation finished! You may reboot now!")
 }

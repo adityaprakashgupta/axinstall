@@ -222,36 +222,12 @@ pub fn install_bootloader_legacy(device: PathBuf) {
     );
 }
 
-pub fn setup_timeshift() {
-    install(vec!["timeshift", "timeshift-autosnap",]);
-    exec_eval(
-        exec_chroot("timeshift", vec![String::from("--create")]),
-        "setup timeshift",
-    )
-}
-
 pub fn copy_live_config() {
     files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
     files::copy_file("/etc/axos-version", "/mnt/etc/axos-version");
     std::fs::create_dir_all("/mnt/etc/sddm.conf.d").unwrap();
     files::copy_file("/etc/sddm.conf.d/settings.conf", "/mnt/etc/sddm.conf.d/settings.conf");
     files::copy_file("/etc/mkinitcpio.conf", "/mnt/etc/mkinitcpio.conf");
-}
-
-pub fn install_flatpak() {
-    install(vec!["flatpak"]);
-    exec_eval(
-        exec_chroot(
-            "flatpak",
-            vec![
-                String::from("remote-add"),
-                String::from("--if-not-exists"),
-                String::from("flathub"),
-                String::from("https://flathub.org/repo/flathub.flatpakrepo"),
-            ],
-        ),
-        "add flathub remote",
-    )
 }
 
 pub fn install_nvidia() {

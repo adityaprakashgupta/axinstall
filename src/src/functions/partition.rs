@@ -42,7 +42,6 @@ pub fn partition(
     mode: PartitionMode,
     efi: bool,
     partitions: &mut Vec<args::Partition>,
-    unakite: bool,
 ) {
     println!("{:?}", mode);
     match mode {
@@ -52,16 +51,16 @@ pub fn partition(
             }
             log::debug!("automatically partitioning {device:?}");
             if efi {
-                partition_with_efi(&device, unakite);
+                partition_with_efi(&device);
             } else {
-                partition_no_efi(&device, unakite);
+                partition_no_efi(&device);
             }
             if device.to_string_lossy().contains("nvme")
                 || device.to_string_lossy().contains("mmcblk")
             {
-                part_nvme(&device, efi, unakite);
+                part_nvme(&device, efi);
             } else {
-                part_disk(&device, efi, unakite);
+                part_disk(&device, efi);
             }
         }
         PartitionMode::Manual => {
@@ -78,7 +77,7 @@ pub fn partition(
     }
 }
 
-fn partition_no_efi(device: &Path, unakite: bool) {
+fn partition_no_efi(device: &Path) {
     let device = device.to_string_lossy().to_string();
     exec_eval(
         exec(
@@ -107,57 +106,24 @@ fn partition_no_efi(device: &Path, unakite: bool) {
         ),
         "create bios boot partition",
     );
-    if unakite {
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    String::from(&device),
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("512MIB"),
-                    String::from("10048MIB"),
-                ],
-            ),
-            "create ext4 Unakite root partition",
-        );
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    device,
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("10048MIB"),
-                    String::from("100%"),
-                ],
-            ),
-            "create ext4 AxOS root partition",
-        );
-    } else {
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    device,
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("512MIB"),
-                    String::from("100%"),
-                ],
-            ),
-            "create ext4 root partition",
-        );
-    }
+    exec_eval(
+        exec(
+            "parted",
+            vec![
+                String::from("-s"),
+                device,
+                String::from("mkpart"),
+                String::from("primary"),
+                String::from("ext4"),
+                String::from("512MIB"),
+                String::from("100%"),
+            ],
+        ),
+        "create ext4 root partition",
+    );
 }
 
-fn partition_with_efi(device: &Path, unakite: bool) {
+fn partition_with_efi(device: &Path) {
     let device = device.to_string_lossy().to_string();
     exec_eval(
         exec(
@@ -185,59 +151,26 @@ fn partition_with_efi(device: &Path, unakite: bool) {
         ),
         "create EFI partition",
     );
-    if unakite {
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    String::from(&device),
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("512MIB"),
-                    String::from("10048MIB"),
-                ],
-            ),
-            "create ext4 Unakite root partition",
-        );
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    device,
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("10048MIB"),
-                    String::from("100%"),
-                ],
-            ),
-            "create ext4 AxOS root partition",
-        );
-    } else {
-        exec_eval(
-            exec(
-                "parted",
-                vec![
-                    String::from("-s"),
-                    device,
-                    String::from("mkpart"),
-                    String::from("primary"),
-                    String::from("ext4"),
-                    String::from("512MIB"),
-                    String::from("100%"),
-                ],
-            ),
-            "create ext4 root partition",
-        );
-    }
+    exec_eval(
+        exec(
+            "parted",
+            vec![
+                String::from("-s"),
+                device,
+                String::from("mkpart"),
+                String::from("primary"),
+                String::from("ext4"),
+                String::from("512MIB"),
+                String::from("100%"),
+            ],
+        ),
+        "create ext4 root partition",
+    );
 }
 
-fn part_nvme(device: &Path, efi: bool, unakite: bool) {
+fn part_nvme(device: &Path, efi: bool) {
     let device = device.to_string_lossy().to_string();
-    if efi && !unakite {
+    if efi {
         exec_eval(
             exec(
                 "mkfs.vfat",
@@ -259,7 +192,7 @@ fn part_nvme(device: &Path, efi: bool, unakite: bool) {
             "create /mnt/boot/efi",
         );
         mount(format!("{}p1", device).as_str(), "/mnt/boot/efi", "");
-    } else if !efi && !unakite {
+    } else if !efi {
         exec_eval(
             exec("mkfs.ext4", vec![format!("{}p1", device)]),
             format!("format {}p1 as ext4", device).as_str(),
@@ -274,56 +207,14 @@ fn part_nvme(device: &Path, efi: bool, unakite: bool) {
         mount(format!("{}p2", device).as_str(), "/mnt/", "");
         files_eval(files::create_directory("/mnt/boot"), "create /mnt/boot");
         mount(format!("{}p1", device).as_str(), "/mnt/boot", "");
-    } else if efi && unakite {
-        exec_eval(
-            exec(
-                "mkfs.vfat",
-                vec![String::from("-F32"), format!("{}p1", device)],
-            ),
-            format!("format {}p1 as fat32", device).as_str(),
-        );
-        exec_eval(
-            exec(
-                "mkfs.ext4",
-                vec![format!("{}p2", device)],
-            ),
-            format!("format {}p2 as ext4", device).as_str(),
-        );
-        exec_eval(
-            exec(
-                "mkfs.ext4",
-                vec![format!("{}p3", device)],
-            ),
-            format!("format {}p3 as ext4", device).as_str(),
-        );
-        mount(format!("{}p3", device).as_str(), "/mnt", "");
-        files_eval(files::create_directory("/mnt/boot"), "create /mnt/boot");
-        files_eval(
-            files::create_directory("/mnt/boot/efi"),
-            "create /mnt/boot/efi",
-        );
-        mount(format!("{}p1", device).as_str(), "/mnt/boot/efi", "");
-    } else if !efi && unakite {
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}p1", device)]),
-            format!("format {}p1 as ext4", device).as_str(),
-        );
-        exec_eval(
-            exec(
-                "mkfs.ext4",
-                vec![format!("{}p2", device)],
-            ),
-            format!("format {}p2 as ext4", device).as_str(),
-        );
-        mount(format!("{}p2", device).as_str(), "/mnt/", "");
-        files_eval(files::create_directory("/mnt/boot"), "create /mnt/boot");
-        mount(format!("{}p1", device).as_str(), "/mnt/boot", "");
+    } else {
+        crash("NVMe devices must be partitioned with EFI", 1);
     }
 }
 
-fn part_disk(device: &Path, efi: bool, unakite: bool) {
+fn part_disk(device: &Path, efi: bool) {
     let device = device.to_string_lossy().to_string();
-    if efi && !unakite {
+    if efi {
         exec_eval(
             exec(
                 "mkfs.vfat",
@@ -342,7 +233,7 @@ fn part_disk(device: &Path, efi: bool, unakite: bool) {
             "create /mnt/boot/efi",
         );
         mount(format!("{}1", device).as_str(), "/mnt/boot/efi", "");
-    } else if !efi && !unakite {
+    } else if !efi {
         exec_eval(
             exec("mkfs.ext4", vec![format!("{}1", device)]),
             format!("format {}1 as ext4", device).as_str(),
@@ -357,48 +248,8 @@ fn part_disk(device: &Path, efi: bool, unakite: bool) {
             "create directory /mnt/boot",
         );
         mount(format!("{}1", device).as_str(), "/mnt/boot", "");
-    } else if efi && unakite {
-        exec_eval(
-            exec(
-                "mkfs.vfat",
-                vec![String::from("-F32"), format!("{}1", device)],
-            ),
-            format!("format {}1 as fat32", device).as_str(),
-        );
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}2", device)]),
-            format!("format {}2 as ext4", device).as_str(),
-        );
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}3", device)]),
-            format!("format {}3 as ext4", device).as_str(),
-        );
-        mount(format!("{}3", device).as_str(), "/mnt", "");
-        files_eval(files::create_directory("/mnt/boot"), "create /mnt/boot");
-        files_eval(
-            files::create_directory("/mnt/boot/efi"),
-            "create /mnt/boot/efi",
-        );
-        mount(format!("{}1", device).as_str(), "/mnt/boot/efi", "");
-    } else if !efi && unakite {
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}1", device)]),
-            format!("format {}1 as ext4", device).as_str(),
-        );
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}2", device)]),
-            format!("format {}2 as ext4", device).as_str(),
-        );
-        exec_eval(
-            exec("mkfs.ext4", vec![format!("{}3", device)]),
-            format!("format {}3 as ext4", device).as_str(),
-        );
-        mount(format!("{}3", device).as_str(), "/mnt/", "");
-        files_eval(
-            files::create_directory("/mnt/boot"),
-            "create directory /mnt/boot",
-        );
-        mount(format!("{}1", device).as_str(), "/mnt/boot", "");
+    } else {
+        crash("Disk devices must be partitioned with EFI", 1);
     }
 }
 
