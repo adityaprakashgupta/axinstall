@@ -104,7 +104,7 @@ pub fn install_base_packages(kernel: String) {
         "chaotic-mirrorlist",
         // Display manager
         "sddm",
-        "sddm-theme-chili",
+        "sddm-theme-axos",
 
     ]);
     files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
@@ -228,6 +228,7 @@ pub fn copy_live_config() {
     files::copy_file("/etc/axos-version", "/mnt/etc/axos-version");
     std::fs::create_dir_all("/mnt/etc/sddm.conf.d").unwrap();
     files::copy_file("/etc/sddm.conf.d/settings.conf", "/mnt/etc/sddm.conf.d/settings.conf");
+    files::copy_file("/etc/sddm.conf", "/mnt/etc/sddm.conf");
     files::copy_file("/etc/mkinitcpio.conf", "/mnt/etc/mkinitcpio.conf");
 }
 
