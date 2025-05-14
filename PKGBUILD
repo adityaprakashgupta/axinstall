@@ -5,6 +5,7 @@ pkgdesc="AxOS installer backend"
 arch=('x86_64')
 license=('GPL')
 makedepends=('cargo' 'rust')
+depends=('arch-install-scripts') # this is needed because it contains arch-chroot
 # sha256sums=('SKIP') 
 
 build() {
