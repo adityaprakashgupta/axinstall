@@ -23,7 +23,7 @@ fn install_dev() {
         "python",
         "python-pip",
         "python-virtualenv",
-        "pipx",
+        "python-pipx",
         "rustup",
         "docker",
         "htop",
