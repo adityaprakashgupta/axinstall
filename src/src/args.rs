@@ -77,6 +77,13 @@ pub enum Command {
         #[clap(subcommand)]
         subcommand: UsersSubcommand,
     },
+
+    /// Installs user kit based on the profile provided
+    #[clap(name = "user-kit")]
+    UserKit {
+        #[clap(subcommand)]
+        kit: UserKit,
+    },
 }
 
 #[derive(Debug, Args)]
@@ -227,4 +234,17 @@ pub enum UsersSubcommand {
         /// The password to set. NOTE: Takes hashed password, use `openssl passwd -1 <password>` to generate the hash.
         password: String,
     },
+}
+
+#[derive(Debug, Subcommand)]
+#[clap(about = "Configure user kits for different profiles.")]
+pub enum UserKit {
+    #[clap(name = "developer")]
+    Developer,
+
+    #[clap(name = "hacker")]
+    Hacker,
+
+    #[clap(name = "artist")]
+    Artist,
 }
