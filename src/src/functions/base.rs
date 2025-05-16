@@ -44,7 +44,7 @@ pub fn install_base_packages(kernel: String) {
         "epsilon",
         "axos-wallpaper-collection",
         "grub-theme-axos",
-        "axuralis",
+	"axctl",
         // Extra goodies
         "neofetch",
         "axos/plymouth",
