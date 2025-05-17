@@ -40,17 +40,13 @@ fn install_calla() {
         "playerctl",
         "redshift",
         "xsettingsd",
-        "firefox",
         "galculator",
         "baobab",
         "gnome-characters",
         "mousepad",
         "gparted",
-        "xterm",
         "wmctrl",
         "libinput-gestures",
-        "wireplumber",
-        "bash-completion",
         "lollypop",
 
     ]);
@@ -65,12 +61,7 @@ fn install_kde() {
         "kde-utilities",
         "kde-system",
         "axskel",
-        "pipewire",
-        "pipewire-pulse",
-        "pipewire-alsa",
-        "pipewire-jack",
         "papirus-icon-theme",
-        "wireplumber",
         "sddm",
         "okular",
         "kate",
@@ -85,18 +76,13 @@ fn install_kde() {
         "partitionmanager",
         "kwrite",
         "plasma-pa",
-        "networkmanager",
         "kscreen",
         "kdialog",
         "print-manager",
         "kde-gtk-config",
-        "xdg-user-dirs",
         "kinfocenter",
         "libreoffice-fresh",
         "sddm-theme-chili",
-        "packagekit-qt5",
-        "power-profiles-daemon",
-        "bluez",
         "bluez-qt",
     ]);
     enable_dm("sddm");
@@ -118,20 +104,31 @@ fn install_sleex() {
         "illogical-impulse-optional",
         ]);
     enable_dm("sddm");
-    //set_sddm_sleex_default();
+    set_sddm_sleex_default();
 }
 
-// fn set_sddm_sleex_default() {
-//     log::debug!("Setting Sleex as the default SDDM session");
-//     exec_eval(
-//         exec_chroot("echo", vec![String::from("[Last]"), String::from(">>"), String::from("/var/lib/sddm/state.conf")]), 
-//         format!("Set Sleex as the default SDDM session").as_str(),
-//     );
-//     exec_eval(
-//         exec_chroot("echo", vec![String::from("Session=/usr/share/wayland-sessions/sleex.desktop"), String::from(">>"), String::from("/var/lib/sddm/state.conf")]), 
-//         format!("Set Sleex as the default SDDM session").as_str(),
-//     );
-// }
+fn set_sddm_sleex_default() {
+    exec_eval(
+        exec_chroot(
+            "mv",
+            vec![
+                String::from("/usr/share/wayland-sessions/hyprland.desktop"),
+                String::from("/usr/share/wayland-sessions/hyprland.desktop.hidden"),
+            ],
+        ),
+        "Rename hyprland.desktop to hyprland.desktop.hidden",
+    );
+    exec_eval(
+        exec_chroot(
+            "mv",
+            vec![
+                String::from("/usr/share/wayland-sessions/hyprland-uswm.desktop"),
+                String::from("/usr/share/wayland-sessions/hyprland-uswm.desktop.hidden"),
+            ],
+        ),
+        "Rename hyprland-uswm.desktop to hyprland-uswm.desktop.hidden",
+    );
+}
 
 fn enable_dm(dm: &str) {
     log::debug!("Enabling {}", dm);

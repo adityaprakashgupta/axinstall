@@ -15,9 +15,11 @@ struct Config {
     rootpass: String,
     desktop: String,
     nvidia: bool,
-    zramd: bool,
     extra_packages: Vec<String>,
     kernel: String,
+    artist_uk: bool,
+    devel_uk: bool,
+    hacker_uk: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -125,11 +127,6 @@ pub fn read_config(configpath: PathBuf) {
     }
     println!();
     println!("---------");
-    log::info!("Enabling zramd : {}", config.zramd);
-    if config.zramd {
-        base::install_zram();
-    }
-    println!();
     log::info!("Installing desktop : {:?}", config.desktop);
     /*if let Some(desktop) = &config.desktop {
         desktops::install_desktop_setup(*desktop);
@@ -169,6 +166,16 @@ pub fn read_config(configpath: PathBuf) {
     log::info!("Enabling nvidia : {}", config.nvidia);
     if config.nvidia {
         base::install_nvidia();
+    }
+    log::info!("Installing user kits");
+    if config.artist_uk {
+        userkit::install_userkit(args::UserKit::Artist);
+    }
+    if config.devel_uk {
+        userkit::install_userkit(args::UserKit::Developer);
+    }
+    if config.hacker_uk {
+        userkit::install_userkit(args::UserKit::Hacker);
     }
     log::info!("Extra packages : {:?}", config.extra_packages);
     let mut extra_packages: Vec<&str> = Vec::new();
