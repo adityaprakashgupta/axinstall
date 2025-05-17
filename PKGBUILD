@@ -1,11 +1,11 @@
 pkgname=axinstall-cli
-pkgver=1.7
-pkgrel=2
+pkgver=1.8
+pkgrel=1
 pkgdesc="AxOS installer backend"
 arch=('x86_64')
 license=('GPL')
 makedepends=('cargo' 'rust')
-depends=('arch-install-scripts') # this is needed because it contains arch-chroot
+depends=('arch-install-scripts')
 # sha256sums=('SKIP') 
 
 build() {
