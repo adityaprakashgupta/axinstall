@@ -122,11 +122,11 @@ fn set_sddm_sleex_default() {
         exec_chroot(
             "mv",
             vec![
-                String::from("/usr/share/wayland-sessions/hyprland-uswm.desktop"),
-                String::from("/usr/share/wayland-sessions/hyprland-uswm.desktop.hidden"),
+                String::from("/usr/share/wayland-sessions/hyprland-uwsm.desktop"),
+                String::from("/usr/share/wayland-sessions/hyprland-uwsm.desktop.hidden"),
             ],
         ),
-        "Rename hyprland-uswm.desktop to hyprland-uswm.desktop.hidden",
+        "Rename hyprland-uwsm.desktop to hyprland-uwsm.desktop.hidden",
     );
 }
 
