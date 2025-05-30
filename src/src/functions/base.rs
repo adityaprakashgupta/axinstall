@@ -218,7 +218,7 @@ pub fn copy_live_config() {
     std::fs::create_dir_all("/mnt/etc/sddm.conf.d").unwrap();
     files::copy_file("/etc/sddm.conf.d/settings.conf", "/mnt/etc/sddm.conf.d/settings.conf");
     files::copy_file("/etc/sddm.conf", "/mnt/etc/sddm.conf");
-    files::copy_file("/etc/mkinitcpio.conf", "/mnt/etc/mkinitcpio.conf");
+    // files::copy_file("/etc/mkinitcpio.conf", "/mnt/etc/mkinitcpio.conf"); // Why is this even there ???
 }
 
 pub fn install_nvidia() {
