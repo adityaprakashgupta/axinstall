@@ -222,7 +222,7 @@ pub fn copy_live_config() {
 }
 
 pub fn install_nvidia() {
-    install(vec!["nvidia", "nvidia-utils", "nvidia-settings"]);
+    install(vec!["nvidia-dkms", "nvidia-utils", "nvidia-settings"]);
 }
 
 pub fn install_zram() {
