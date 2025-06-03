@@ -10,7 +10,7 @@ use log;
 pub fn fmt_mount(mountpoint: &str, filesystem: &str, blockdevice: &str) {
     let fs_command = match filesystem {
         "ext4" => ("mkfs.ext4", vec![String::from(blockdevice)]),
-        "vfat" => ("mkfs.vfat", vec![String::from("-F32"), String::from(blockdevice)]),
+        "fat32" => ("mkfs.fat", vec![String::from("-F32"), String::from(blockdevice)]),
         "btrfs" => ("mkfs.btrfs", vec![String::from("-f"), String::from(blockdevice)]),
         "xfs" => ("mkfs.xfs", vec![String::from(blockdevice)]),
         "noformat" | "don't format" => {
@@ -173,7 +173,7 @@ fn part_nvme(device: &Path, efi: bool) {
     if efi {
         exec_eval(
             exec(
-                "mkfs.vfat",
+                "mkfs.fat",
                 vec![String::from("-F32"), format!("{}p1", device)],
             ),
             format!("format {}p1 as fat32", device).as_str(),
@@ -217,7 +217,7 @@ fn part_disk(device: &Path, efi: bool) {
     if efi {
         exec_eval(
             exec(
-                "mkfs.vfat",
+                "mkfs.fat",
                 vec![String::from("-F32"), format!("{}1", device)],
             ),
             format!("format {}1 as fat32", device).as_str(),

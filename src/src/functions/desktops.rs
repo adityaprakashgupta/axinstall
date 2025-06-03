@@ -84,6 +84,7 @@ fn install_kde() {
         "libreoffice-fresh",
         "sddm-theme-chili",
         "bluez-qt",
+        "plasma-nm",
     ]);
     enable_dm("sddm");
 }

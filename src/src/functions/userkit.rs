@@ -31,6 +31,8 @@ fn install_dev() {
         "ripgrep",
         "exa",
         "tmux",
+        "opencl-mesa",
+        "rust",
     ]);
 }
 
