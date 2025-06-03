@@ -247,4 +247,10 @@ pub enum UserKit {
 
     #[clap(name = "artist")]
     Artist,
+
+    #[clap(name = "office")]
+    Office,
+
+    #[clap(name = "entertainment")]
+    Entertainment,
 }

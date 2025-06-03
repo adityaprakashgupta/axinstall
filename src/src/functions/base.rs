@@ -52,7 +52,6 @@ pub fn install_base_packages(kernel: String) {
         "noto-fonts-extra",
         "ttf-nerd-fonts-symbols-common",
         // Common packages for all desktops
-        "xterm",
         "pipewire",
         "pipewire-pulse",
         "pipewire-alsa",
@@ -83,11 +82,13 @@ pub fn install_base_packages(kernel: String) {
         "xf86-video-amdgpu",
         "xf86-video-intel",
         "xf86-video-nouveau",
-        "xf86-video-vmware",
+        // "xf86-video-vmware",
+        "xf86-video-vesa",
+        "mesa",
         "vulkan-intel",
         "vulkan-radeon",
         "vulkan-icd-loader",
-        "virtualbox-guest-utils",
+        // "virtualbox-guest-utils",
         // Chaotic-AUR
         "chaotic-keyring",
         "chaotic-mirrorlist",

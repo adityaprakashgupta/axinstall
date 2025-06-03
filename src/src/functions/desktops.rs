@@ -86,6 +86,7 @@ fn install_kde() {
         "bluez-qt",
         "plasma-nm",
         "spectacle",
+        "plasma-kcm",
     ]);
     enable_dm("sddm");
 }

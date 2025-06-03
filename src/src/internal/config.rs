@@ -20,6 +20,8 @@ struct Config {
     artist_uk: bool,
     devel_uk: bool,
     hacker_uk: bool,
+    office_uk: bool,
+    entertainment_uk: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -176,6 +178,12 @@ pub fn read_config(configpath: PathBuf) {
     }
     if config.hacker_uk {
         userkit::install_userkit(args::UserKit::Hacker);
+    }
+    if config.office_uk {
+        userkit::install_userkit(args::UserKit::Office);
+    }
+    if config.entertainment_uk {
+        userkit::install_userkit(args::UserKit::Entertainment);
     }
     log::info!("Extra packages : {:?}", config.extra_packages);
     let mut extra_packages: Vec<&str> = Vec::new();
