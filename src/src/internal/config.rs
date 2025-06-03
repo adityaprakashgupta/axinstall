@@ -14,6 +14,7 @@ struct Config {
     users: Vec<Users>,
     rootpass: String,
     desktop: String,
+    swap: u64,
     nvidia: bool,
     extra_packages: Vec<String>,
     kernel: String,
@@ -168,6 +169,10 @@ pub fn read_config(configpath: PathBuf) {
     log::info!("Enabling nvidia : {}", config.nvidia);
     if config.nvidia {
         base::install_nvidia();
+    }
+    log::info!("Enabling swap: {}M ", config.swap);
+    if config.swap > 0 {
+        base::enable_swap(config.swap);
     }
     log::info!("Installing user kits");
     if config.artist_uk {

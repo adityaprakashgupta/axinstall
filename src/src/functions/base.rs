@@ -226,11 +226,26 @@ pub fn install_nvidia() {
     install(vec!["nvidia-dkms", "nvidia-utils", "nvidia-settings"]);
 }
 
-pub fn install_zram() {
-    install(vec!["zram-generator"]);
-    files::create_file("/mnt/etc/systemd/zram-generator.conf");
-    files_eval(
-        files::append_file("/mnt/etc/systemd/zram-generator.conf", "[zram0]"),
-        "Write zram-generator config",
+pub fn enable_swap(size: u64) {
+    let size_mb = size.to_string();
+    exec_eval(
+        exec("fallocate", vec![
+            String::from("-l"),
+            format!("{}M", size_mb),
+            String::from("/mnt/swapfile"),
+        ]),
+        "Create swapfile",
     );
+    exec_eval(
+        exec("chmod", vec![
+            String::from("600"),
+            String::from("/mnt/swapfile"),
+        ]),
+        "Set swapfile permissions",
+    );
+    exec_eval(
+        exec("mkswap", vec![String::from("/mnt/swapfile")]),
+        "Format swapfile",
+    );
+    std::fs::write("/mnt/etc/fstab", "\n/swapfile none swap defaults 0 0\n").unwrap();
 }

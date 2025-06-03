@@ -45,9 +45,12 @@ pub enum Command {
     #[clap(name = "networking")]
     Networking(NetworkingArgs),
 
-    /// Set up zramd
-    #[clap(name = "zramd")]
-    Zram,
+    /// Set up swap
+    #[clap(name = "swap")]
+    Swap {
+        #[clap(value_parser)]
+        size: u64,
+    },
 
     #[clap(name = "copy-live-config")]
     CopyLive,

@@ -48,10 +48,10 @@ axinstall-cli is an installer backend for AxOS.
 # axinstall-cli networking getcryst.al --ipv6
 ```
 
-### Setup zramd
+### Setup swap
 ```sh
-# install and enable zramd
-# axinstall-cli zramd
+# enable swap
+# axinstall-cli swap X # whhere X is the size in MiB
 ```
 
 ### Configure users

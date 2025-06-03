@@ -54,8 +54,8 @@ fn main() {
             }
             network::set_hostname(&args.hostname);
         }
-        Command::Zram => {
-            base::install_zram();
+        Command::Swap { size } => {
+            base::enable_swap(size);
         }
         Command::CopyLive => {
             base::copy_live_config();
