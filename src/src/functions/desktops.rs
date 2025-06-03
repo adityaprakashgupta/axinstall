@@ -85,6 +85,7 @@ fn install_kde() {
         "sddm-theme-chili",
         "bluez-qt",
         "plasma-nm",
+        "spectacle",
     ]);
     enable_dm("sddm");
 }
