@@ -55,7 +55,7 @@ pub fn install_base_packages(kernel: String) {
         "pipewire",
         "pipewire-pulse",
         "pipewire-alsa",
-        "pipewire-jack",
+        // "pipewire-jack",
         "wireplumber",
         "power-profiles-daemon",
         "cups",
@@ -78,6 +78,7 @@ pub fn install_base_packages(kernel: String) {
         "packagekit-qt6",
         "gnome-packagekit",
         "packagekit",
+        "unzip",
         // Graphic drivers
         "xf86-video-amdgpu",
         "xf86-video-intel",
