@@ -190,7 +190,6 @@ pub struct NetworkingArgs {
 
 #[derive(Debug, ArgEnum, Copy, Clone, Ord, PartialOrd, Eq, PartialEq, Serialize, Deserialize)]
 pub enum DesktopSetup {
-
     #[clap(name = "kde", aliases = ["plasma"])]
     Kde,
 
@@ -203,7 +202,6 @@ pub enum DesktopSetup {
     #[clap(name = "None/DIY")]
     None,
 }
-
 
 #[derive(Debug, Args)]
 pub struct NewUserArgs {
@@ -223,7 +221,6 @@ pub struct NewUserArgs {
     /// If a shell is not specified or unknown, it defaults to fish.
     pub shell: String,
 }
-
 
 #[derive(Debug, Subcommand)]
 pub enum UsersSubcommand {

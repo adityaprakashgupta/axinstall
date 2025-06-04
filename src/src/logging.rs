@@ -6,7 +6,9 @@ use std::env;
 use std::io::Write;
 
 lazy_static! {
-    static ref UWU: bool = env::var("AXINSTALL_CLI_UWU").map(|v| v == "true").unwrap_or(false);
+    static ref UWU: bool = env::var("AXINSTALL_CLI_UWU")
+        .map(|v| v == "true")
+        .unwrap_or(false);
     static ref UWU_DEBUG: bool = env::var("AXINSTALL_CLI_UWU_DEBUG")
         .map(|v| v == "true")
         .unwrap_or(false);

@@ -16,15 +16,11 @@ fn main() {
     match opt.command {
         Command::Partition(args) => {
             let mut partitions = args.partitions;
-            partition::partition(
-                args.device,
-                args.mode,
-                args.efi,
-                &mut partitions,
-            );
+            partition::partition(args.device, args.mode, args.efi, &mut partitions);
         }
         Command::InstallBase(args) => {
             base::install_base_packages(args.kernel);
+            base::setup_flatpak(); // Added call to setup_flatpak
         }
         Command::SetupKeyring => {
             base::setup_archlinux_keyring();
@@ -43,7 +39,7 @@ fn main() {
         Command::Locale(args) => {
             locale::set_locale(args.locales.join(" "));
             locale::set_keyboard(&args.keyboard);
-            locale::set_timezone(&args.timezone); 
+            locale::set_timezone(&args.timezone);
         }
         Command::Networking(args) => {
             if args.ipv6 {
@@ -82,7 +78,7 @@ fn main() {
             UsersSubcommand::RootPass { password } => {
                 users::root_pass(&password);
             }
-        }
+        },
         Command::UserKit { kit } => {
             userkit::install_userkit(kit);
         }

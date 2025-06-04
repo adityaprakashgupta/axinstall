@@ -104,6 +104,7 @@ pub fn read_config(configpath: PathBuf) {
     );
     base::install_base_packages(config.kernel);
     base::setup_archlinux_keyring();
+    base::setup_flatpak(); // Added call to setup_flatpak
     base::genfstab();
     println!();
     log::info!("Installing bootloader : {}", config.bootloader.r#type);

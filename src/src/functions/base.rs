@@ -79,6 +79,7 @@ pub fn install_base_packages(kernel: String) {
         "gnome-packagekit",
         "packagekit",
         "unzip",
+        "flatpak",
         // Graphic drivers
         "xf86-video-amdgpu",
         "xf86-video-intel",
@@ -96,7 +97,6 @@ pub fn install_base_packages(kernel: String) {
         // Display manager
         "sddm",
         "sddm-theme-axos",
-
     ]);
     files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
 
@@ -119,17 +119,31 @@ pub fn install_base_packages(kernel: String) {
 
 pub fn setup_archlinux_keyring() {
     exec_eval(
-        exec_chroot("pacman-key", vec![
-            String::from("--init"),
-        ]),
+        exec_chroot("pacman-key", vec![String::from("--init")]),
         "Initialize pacman keyring",
     );
     exec_eval(
-        exec_chroot("pacman-key", vec![
-            String::from("--populate"),
-            String::from("archlinux"),
-        ]),
+        exec_chroot(
+            "pacman-key",
+            vec![String::from("--populate"), String::from("archlinux")],
+        ),
         "Populate pacman keyring",
+    );
+}
+
+// Function to add the Flathub remote for Flatpak
+pub fn setup_flatpak() {
+    exec_eval(
+        exec_chroot(
+            "flatpak",
+            vec![
+                String::from("remote-add"),
+                String::from("--if-not-exists"),
+                String::from("flathub"),
+                String::from("https://dl.flathub.org/repo/flathub.flatpakrepo"),
+            ],
+        ),
+        "Add Flathub remote",
     );
 }
 
@@ -147,11 +161,7 @@ pub fn genfstab() {
 }
 
 pub fn install_bootloader_efi(efidir: PathBuf) {
-    install::install(vec![
-        "axos/grub",
-        "efibootmgr",
-        "os-prober",
-    ]);
+    install::install(vec!["axos/grub", "efibootmgr", "os-prober"]);
     let efidir = std::path::Path::new("/mnt").join(efidir);
     let efi_str = efidir.to_str().unwrap();
     if !std::path::Path::new(&format!("/mnt{efi_str}")).exists() {
@@ -190,10 +200,7 @@ pub fn install_bootloader_efi(efidir: PathBuf) {
 }
 
 pub fn install_bootloader_legacy(device: PathBuf) {
-    install::install(vec![
-        "axos/grub",
-        "os-prober",
-    ]);
+    install::install(vec!["axos/grub", "os-prober"]);
     if !device.exists() {
         crash(format!("The device {device:?} does not exist"), 1);
     }
@@ -218,7 +225,10 @@ pub fn copy_live_config() {
     files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
     files::copy_file("/etc/axos-version", "/mnt/etc/axos-version");
     std::fs::create_dir_all("/mnt/etc/sddm.conf.d").unwrap();
-    files::copy_file("/etc/sddm.conf.d/settings.conf", "/mnt/etc/sddm.conf.d/settings.conf");
+    files::copy_file(
+        "/etc/sddm.conf.d/settings.conf",
+        "/mnt/etc/sddm.conf.d/settings.conf",
+    );
     files::copy_file("/etc/sddm.conf", "/mnt/etc/sddm.conf");
     // files::copy_file("/etc/mkinitcpio.conf", "/mnt/etc/mkinitcpio.conf"); // Why is this even there ???
 }
@@ -230,18 +240,21 @@ pub fn install_nvidia() {
 pub fn enable_swap(size: u64) {
     let size_mb = size.to_string();
     exec_eval(
-        exec("fallocate", vec![
-            String::from("-l"),
-            format!("{}M", size_mb),
-            String::from("/mnt/swapfile"),
-        ]),
+        exec(
+            "fallocate",
+            vec![
+                String::from("-l"),
+                format!("{}M", size_mb),
+                String::from("/mnt/swapfile"),
+            ],
+        ),
         "Create swapfile",
     );
     exec_eval(
-        exec("chmod", vec![
-            String::from("600"),
-            String::from("/mnt/swapfile"),
-        ]),
+        exec(
+            "chmod",
+            vec![String::from("600"), String::from("/mnt/swapfile")],
+        ),
         "Set swapfile permissions",
     );
     exec_eval(
