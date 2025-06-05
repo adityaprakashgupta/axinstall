@@ -16,95 +16,21 @@ pub fn install_userkit(kit: UserKit) {
 }
 
 fn install_dev() {
-    install(vec![
-        "git",
-        "vim",
-        "neovim",
-        "base-devel", 
-        "cmake",
-        "nodejs",
-        "npm",
-        "python",
-        "python-pip",
-        "python-virtualenv",
-        "python-pipx",
-        "rustup",
-        "docker",
-        "htop",
-        "curl",
-        "ripgrep",
-        "exa",
-        "tmux",
-        "opencl-mesa",
-        "rust",
-    ]);
+    install(vec!["@developer"]);
 }
-
 
 fn install_hacks() {
-    install(vec![
-        "nmap",
-        "wireshark-qt",
-        "hydra",
-        "nikto",
-        "john",
-        "gdb",
-        "radare2",
-        "binwalk",
-        "curl",
-        "dnsutils",
-        "netcat",
-        "socat",
-        "tcpdump",
-        "htop",
-        "tmux",
-    ]);
+    install(vec!["@hacker"]);
 }
-
-
 
 fn install_artist() {
-    install(vec![
-        "gimp",
-        "krita",
-        "inkscape",
-        "blender",
-        "obs-studio",
-        "fontforge",
-        "darktable",
-        "shotcut",
-        "xournalpp",
-        "xclip",
-        "lmms",
-        "audacity",
-        "ffmpeg",
-        "imagemagick",
-    ]);
+    install(vec!["@artist"]);
 }
 
-
 fn install_office() {
-    install(vec![
-        "libreoffice-fresh",      // Office suite
-        "evince",                 // PDF/document viewer (GTK)
-        "hunspell",               // Spell checker
-        "pandoc",                 // Document converter
-        "abiword",                // Lightweight word processor
-        "gnumeric",               // Lightweight spreadsheet
-        "calibre",                // E-book management
-        "zathura",                // Lightweight PDF viewer
-        "simple-scan",            // Scanning utility
-        "xournalpp",              // Note-taking and PDF annotation
-        "masterpdfeditor-free",   // PDF editor (if available in your repos)
-    ]);
+    install(vec!["@office"]);
 }
 
 fn install_entertainment() {
-    install(vec![
-        "axuralis",
-        "vlc",
-        "mpv",
-        "vesktop",
-        "lutris"
-    ])
+    install(vec!["@entertainment"])
 }
