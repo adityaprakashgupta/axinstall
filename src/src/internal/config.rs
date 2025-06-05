@@ -23,6 +23,7 @@ struct Config {
     hacker_uk: bool,
     office_uk: bool,
     entertainment_uk: bool,
+    flatpak: bool,
 }
 
 #[derive(Serialize, Deserialize)]
@@ -104,6 +105,9 @@ pub fn read_config(configpath: PathBuf) {
     );
     base::install_base_packages(config.kernel);
     base::setup_archlinux_keyring();
+    if config.flatpak {
+        base::install_flatpak();
+    }
     base::genfstab();
     println!();
     log::info!("Installing bootloader : {}", config.bootloader.r#type);
