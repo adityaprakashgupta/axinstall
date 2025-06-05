@@ -82,7 +82,7 @@ fn main() {
             userkit::install_userkit(kit);
         }
         Command::InstallFlatpak => {
-            base::setup_flatpak();
+            base::install_flatpak();
         }
     }
 }

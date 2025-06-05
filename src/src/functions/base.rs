@@ -131,7 +131,7 @@ pub fn setup_archlinux_keyring() {
 }
 
 // Function to add the Flathub remote for Flatpak
-pub fn setup_flatpak() {
+pub fn install_flatpak() {
     install(vec!["flatpak"]);
     exec_eval(
         exec_chroot(
