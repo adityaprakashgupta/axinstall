@@ -20,7 +20,6 @@ fn main() {
         }
         Command::InstallBase(args) => {
             base::install_base_packages(args.kernel);
-            base::setup_flatpak(); // Added call to setup_flatpak
         }
         Command::SetupKeyring => {
             base::setup_archlinux_keyring();
@@ -81,6 +80,9 @@ fn main() {
         },
         Command::UserKit { kit } => {
             userkit::install_userkit(kit);
+        }
+        Command::InstallFlatpak => {
+            base::setup_flatpak();
         }
     }
 }

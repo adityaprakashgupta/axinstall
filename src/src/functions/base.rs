@@ -79,7 +79,6 @@ pub fn install_base_packages(kernel: String) {
         "gnome-packagekit",
         "packagekit",
         "unzip",
-        "flatpak",
         // Graphic drivers
         "xf86-video-amdgpu",
         "xf86-video-intel",
@@ -133,6 +132,7 @@ pub fn setup_archlinux_keyring() {
 
 // Function to add the Flathub remote for Flatpak
 pub fn setup_flatpak() {
+    install(vec!["flatpak"]);
     exec_eval(
         exec_chroot(
             "flatpak",

@@ -87,6 +87,9 @@ pub enum Command {
         #[clap(subcommand)]
         kit: UserKit,
     },
+    /// Install Flatpak
+    #[clap(name = "install-flatpak")]
+    InstallFlatpak,
 }
 
 #[derive(Debug, Args)]
