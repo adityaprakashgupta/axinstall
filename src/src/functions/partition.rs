@@ -156,6 +156,20 @@ fn partition_with_efi(device: &Path) {
             "parted",
             vec![
                 String::from("-s"),
+                String::from(&device),
+                String::from("set"),
+                String::from("1"),
+                String::from("esp"),
+                String::from("on"),
+            ],
+        ),
+        "set EFI partition as ESP",
+    );
+    exec_eval(
+        exec(
+            "parted",
+            vec![
+                String::from("-s"),
                 device,
                 String::from("mkpart"),
                 String::from("primary"),
