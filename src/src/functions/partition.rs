@@ -72,6 +72,22 @@ pub fn partition(
                     &partition.filesystem,
                     &partition.blockdevice,
                 );
+                if &partition.mountpoint == "/boot/efi" {
+                    exec_eval(
+                        exec(
+                            "parted",
+                            vec![
+                                String::from("-s"),
+                                String::from(&partition.blockdevice),
+                                String::from("set"),
+                                String::from("1"),
+                                String::from("esp"),
+                                String::from("on"),
+                            ],
+                        ),
+                        "set EFI partition as ESP",
+                    );
+                }
             }
         }
     }
@@ -206,6 +222,20 @@ fn part_nvme(device: &Path, efi: bool) {
             "create /mnt/boot/efi",
         );
         mount(format!("{}p1", device).as_str(), "/mnt/boot/efi", "");
+        exec_eval(
+        exec(
+            "parted",
+            vec![
+                String::from("-s"),
+                String::from(&device),
+                String::from("set"),
+                String::from("1"),
+                String::from("esp"),
+                String::from("on"),
+            ],
+        ),
+        "set EFI partition as ESP",
+    );
     } else if !efi {
         exec_eval(
             exec("mkfs.ext4", vec![format!("{}p1", device)]),
@@ -247,6 +277,20 @@ fn part_disk(device: &Path, efi: bool) {
             "create /mnt/boot/efi",
         );
         mount(format!("{}1", device).as_str(), "/mnt/boot/efi", "");
+        exec_eval(
+            exec(
+                "parted",
+                vec![
+                    String::from("-s"),
+                    String::from(&device),
+                    String::from("set"),
+                    String::from("1"),
+                    String::from("esp"),
+                    String::from("on"),
+                ],
+            ),
+            "set EFI partition as ESP",
+        );
     } else if !efi {
         exec_eval(
             exec("mkfs.ext4", vec![format!("{}1", device)]),
