@@ -202,6 +202,9 @@ pub enum DesktopSetup {
     #[clap(name = "sleex")]
     Sleex,
 
+    #[clap(name = "theom")]
+    Theom,
+
     #[clap(name = "None/DIY")]
     None,
 }

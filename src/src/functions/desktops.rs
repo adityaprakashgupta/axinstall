@@ -9,6 +9,7 @@ pub fn install_desktop_setup(desktop_setup: DesktopSetup) {
         DesktopSetup::Kde => install_kde(),
         DesktopSetup::Calla => install_calla(),
         DesktopSetup::Sleex => install_sleex(),
+        DesktopSetup::Theom => install_theom(),
         DesktopSetup::None => log::debug!("No desktop setup selected"),
     }
     install_networkmanager();
@@ -108,6 +109,16 @@ fn install_sleex() {
         ]);
     enable_dm("sddm");
     set_sddm_sleex_default();
+}
+
+fn install_theom() {
+    install(vec![
+        // I believe that it will install it's deps automatically. Correct me if i am wrong @ardox.
+        "theom",
+        "gammastep",
+        "mousepad"
+        ]);
+    enable_dm("sddm");
 }
 
 fn set_sddm_sleex_default() {
