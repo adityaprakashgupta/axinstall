@@ -64,6 +64,7 @@ fn install_kde() {
 	"ark",
 	"plasma-workspace",
 	"axskel",
+	"papirus-icon-theme",
     ]);
     enable_dm("sddm");
 }
@@ -89,7 +90,6 @@ fn install_sleex() {
 
 fn install_theom() {
     install(vec![
-        // I believe that it will install it's deps automatically. Correct me if i am wrong @ardox.
         "theom",
         "gammastep",
         "mousepad"
