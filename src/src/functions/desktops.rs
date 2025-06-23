@@ -57,13 +57,13 @@ fn install_calla() {
 
 fn install_kde() {
     install(vec![
-        'plasma-meta',
-	'konsole',
-	'kate',
-	'dolphin',
-	'ark',
-	'plasma-workspace',
-	'axskel',
+        "plasma-meta",
+	"konsole",
+	"kate",
+	"dolphin",
+	"ark",
+	"plasma-workspace",
+	"axskel",
     ]);
     enable_dm("sddm");
 }
