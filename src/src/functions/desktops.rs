@@ -60,6 +60,7 @@ fn install_kde() {
         "xorg",
         "plasma-desktop",
         "kde-utilities",
+	"plasma-meta",
         "kde-system",
         "axskel",
         "papirus-icon-theme",
