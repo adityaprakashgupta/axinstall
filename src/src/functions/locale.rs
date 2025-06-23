@@ -66,7 +66,7 @@ pub fn set_keyboard(keyboard: &str) {
             "/mnt/etc/vconsole.conf",
             format!("KEYMAP={}", keyboard).as_str(),
         ),
-        "set keyboard layout",
+        "set keyboard layout in vconsole",
     );
     exec_eval(
         exec_chroot(
@@ -77,5 +77,15 @@ pub fn set_keyboard(keyboard: &str) {
             ],
         ),
         "Set x11 keymap",
+    );
+    exec_eval(
+        exec_chroot(
+            "localectl",
+            vec![
+                "set-keymap".to_string(),
+                keyboard.to_string(),
+            ],
+        ),
+        "Set global keymap",
     );
 }
