@@ -68,12 +68,14 @@ pub fn set_keyboard(keyboard: &str) {
         ),
         "set keyboard layout",
     );
-    exec_chroot(
-        "localectl",
-        vec![
-            "set-x11-keymap".to_string(),
-            keyboard.to_string(),
-        ],
-    ),
-    "Set x11 keymap",
+    exec_eval(
+        exec_chroot(
+            "localectl",
+            vec![
+                "set-x11-keymap".to_string(),
+                keyboard.to_string(),
+            ],
+        ),
+        "Set x11 keymap",
+    );
 }
