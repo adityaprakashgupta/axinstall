@@ -75,12 +75,12 @@ pub fn install_base_packages(kernel: String) {
         "vulkan-icd-loader",
         // "virtualbox-guest-utils",
         // Chaotic-AUR
-        "chaotic-keyring",
-        "chaotic-mirrorlist",
+        // "chaotic-keyring",
+        // "chaotic-mirrorlist",
         // Display manager
         "sddm",
     ]);
-    files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
+    // files::copy_file("/etc/pacman.conf", "/mnt/etc/pacman.conf");
 
     exec_eval(
         exec_chroot(
